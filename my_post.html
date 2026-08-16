@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>덧글</title>
+
+    <!-- 브라우저 탭 아이콘 -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="css/my_post.css">
+
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- status-bar (고정) -->
+    <img class="status-bar" src="assets/status-bar.png" alt="상태바">
+
+    <!-- header (고정) - 뒤로 가기를 누르면 my로 돌아간다 -->
+    <header class="header">
+      <button class="back-button" id="backBtn" type="button" aria-label="뒤로 가기">
+        <img class="icon-back" src="assets/icon-back.svg" alt="">
+      </button>
+      <h1 class="board-title cap-trim">내 게시글</h1>
+    </header>
+
+    <!-- 내가 쓴 게시글 목록 (스크롤) - js/my_post.js가 그린다.
+         게시판을 가리지 않고 내가 쓴 글만 최근에 쓴 순서로 보여준다. -->
+    <main class="content" id="postList"></main>
+
+    <!-- 하단 그라데이션 (고정) -->
+    <div class="bottom-fade"></div>
+
+    <!-- 삭제 확인 카드가 열렸을 때 깔리는 막 -->
+    <div class="dim" id="dim" hidden></div>
+
+    <!-- 지우기를 누르면 뜨는 카드 (search의 작품 추가 카드와 같은 모양) -->
+    <div class="delete-card" id="deleteCard" role="dialog" aria-modal="true" hidden>
+      <p class="delete-title" id="deleteTitle"></p>
+      <p class="delete-desc cap-trim">게시글을 삭제하시겠습니까?</p>
+      <button class="delete-cancel cap-trim" id="deleteCancel" type="button">취소</button>
+      <button class="delete-confirm cap-trim" id="deleteConfirm" type="button">예</button>
+    </div>
+
+  </div>
+
+<script src="js/data.js"></script>
+<script src="js/my_post.js"></script>
+</body>
+</html>

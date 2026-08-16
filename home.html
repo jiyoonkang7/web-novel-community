@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>덧글</title>
+
+    <!-- 브라우저 탭 아이콘 -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="css/home.css">
+
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- status-bar (고정) -->
+    <img class="status-bar" src="assets/status-bar.png" alt="상태바">
+
+    <!-- header (고정) -->
+    <header class="header">
+      <img class="logo" src="assets/logo.png" alt="로고">
+      <img class="service-name" src="assets/logo-name.png" alt="덧글">
+      <button class="notification" id="notificationBtn">
+        <img class="icon-notification" src="assets/icon-notification.png" alt="알림">
+      </button>
+    </header>
+
+    <!-- 스크롤 영역 -->
+    <main class="content" id="content">
+
+      <!-- search-bar -->
+      <button class="search-bar" id="searchBarBtn">
+        <span class="search-placeholder">관심있는 작품을 검색하세요!</span>
+        <img class="icon-search" src="assets/icon-search.svg" alt="검색">
+      </button>
+
+      <!-- 테마 게시판 -->
+      <section class="theme-section">
+        <h2 class="section-title theme-title">테마 게시판</h2>
+
+        <!-- data-board: 눌렀을 때 열릴 community 게시판 키 (js/community.js의 BOARDS) -->
+        <div class="theme-slider" id="themeSlider" tabindex="0">
+          <article class="theme-banner" data-board="sumeun" role="button" tabindex="0">
+            <img class="banner-image" src="assets/banner_1.png" alt="숨은 명작 추천">
+            <div class="banner-gradient"></div>
+            <p class="banner-title">숨은 명작 추천</p>
+            <p class="banner-desc">모두가 알았으면 하는 작품!</p>
+          </article>
+
+          <article class="theme-banner" data-board="character" role="button" tabindex="0">
+            <img class="banner-image" src="assets/banner_2.png" alt="캐릭터 모음.zip">
+            <div class="banner-gradient"></div>
+            <p class="banner-title">캐릭터 모음.zip</p>
+            <p class="banner-desc">캐릭터로 입덕하는 웹소설</p>
+          </article>
+
+          <article class="theme-banner" data-board="hacha" role="button" tabindex="0">
+            <img class="banner-image" src="assets/banner_3.png" alt="하차한 이유">
+            <div class="banner-gradient"></div>
+            <p class="banner-title">하차한 이유</p>
+            <p class="banner-desc">독자들의 솔직한 후기</p>
+          </article>
+        </div>
+
+        <div class="dot-indicator" id="dotIndicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </section>
+
+      <!-- 내 게시판 -->
+      <section class="board-section">
+        <h2 class="section-title board-title">내 게시판</h2>
+
+        <!-- 카드는 js/home.js가 그린다.
+             search 화면에서 추가한 작품이 뒤에 이어 붙기 때문이다 (js/data.js의 loadMyBoards) -->
+        <div class="board-strip" id="boardStrip">
+          <div class="board-list" id="boardList"></div>
+        </div>
+      </section>
+
+      <!-- 오늘의 추천 작품 -->
+      <section class="recommend-section">
+        <h2 class="section-title recommend-title">✨ 오늘의 추천 작품 ✨</h2>
+
+        <!-- data-link: 눌렀을 때 열릴 작품의 플랫폼 페이지 -->
+        <article class="work-banner" data-link="https://page.kakao.com/content/56325530/" role="link" tabindex="0">
+          <div class="work-cover">
+            <img src="assets/데못죽.jpg" alt="데뷔 못하면 죽는 병 걸림">
+          </div>
+          <div class="work-info">
+            <div class="work-text">
+              <p class="work-title">데뷔 못하면 죽는 병 걸림</p>
+              <p class="work-rating">
+                <img class="icon-star" src="assets/icon-star.svg" alt="별점">
+                <span class="score">4.8</span>
+              </p>
+              <p class="work-desc">4년차 공시생, 낯선 몸에 빙의해 3년 전으로 돌아왔다.<br>그리고 그의 눈앞에 나타난 갑작스러운 상태창의 협박! ...</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-banner" data-link="https://page.kakao.com/content/60707231/" role="link" tabindex="0">
+          <div class="work-cover">
+            <img src="assets/마차살.jpg" alt="마법명가 차남으로 살아남기">
+          </div>
+          <div class="work-info">
+            <div class="work-text">
+              <p class="work-title">마법명가 차남으로 살아남기</p>
+              <p class="work-rating">
+                <img class="icon-star" src="assets/icon-star.svg" alt="별점">
+                <span class="score">4.7</span>
+              </p>
+              <p class="work-desc">푸른 빛이 도는 검은 독액이 눈앞에서 흔들렸다.<br>형이 부드러운 미소를 지으며 나긋하게 말했다. “지금 ...</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-banner" data-link="https://series.naver.com/novel/detail.series?productNo=3400123" role="link" tabindex="0">
+          <div class="work-cover">
+            <img src="assets/전독시.jpg" alt="전지적 독자 시점">
+          </div>
+          <div class="work-info">
+            <div class="work-text">
+              <p class="work-title">전지적 독자 시점</p>
+              <p class="work-rating">
+                <img class="icon-star" src="assets/icon-star.svg" alt="별점">
+                <span class="score">4.8</span>
+              </p>
+              <p class="work-desc">[오직 나만이, 이 세계의 결말을 알고 있다.]<br>무려 3149편에 달하는 장편 판타지 소설, '멸망한 세계 ...</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="work-banner" data-link="https://page.kakao.com/content/65171279/" role="link" tabindex="0">
+          <div class="work-cover">
+            <img src="assets/괴출.jpg" alt="괴담에 떨어져도 출근을 해야 하는구나">
+          </div>
+          <div class="work-info">
+            <div class="work-text">
+              <p class="work-title">괴담에 떨어져도<br>출근을 해야 하는구나</p>
+              <p class="work-rating">
+                <img class="icon-star" src="assets/icon-star.svg" alt="별점">
+                <span class="score">4.8</span>
+              </p>
+              <p class="work-desc">소중한 연차까지 내고 갈 정도로 좋아하던<br>'어떤 현대판타지' 팝업 이벤트. 그리고 그날, 그 현판 ...</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+    </main>
+
+    <!-- 내비게이터 (고정) -->
+    <nav class="navigator">
+      <!-- 색이 바뀌어야 해서 이미지 대신 인라인 SVG (stroke="currentColor") -->
+      <button class="nav-item" data-nav="bookmark" aria-label="북마크">
+        <svg viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <path d="M23 6H8V24.5L15.5 21.5L23 24.5V6Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button class="nav-item is-active" data-nav="home" aria-label="홈">
+        <svg viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <path d="M15.5 5L6 12V26H12.5V18H18.5V26H25V12L15.5 5Z"
+                stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button class="nav-item" data-nav="my" aria-label="마이">
+        <svg viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <path d="M11 9C11 6.5 12.5 5 15 5C17.5 5 19 6.5 19 9C19 11.5 17.5 13 15 13C12.5 13 11 11.5 11 9Z"
+                stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M6 24C6 24 7 17 15 17C23 17 24 24 24 24"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </nav>
+
+  </div>
+
+<script src="js/data.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

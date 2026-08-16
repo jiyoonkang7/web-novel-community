@@ -1,0 +1,443 @@
+/* 다른 화면과 UI를 맞춘다.
+   status-bar / header / 게시글 / 하단 그라데이션은 css/bookmark.css와 같은 모양이다.
+   이 화면에는 북마크 버튼과 내비게이터가 없고, header에 뒤로 가기가 붙는다. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Figma의 세로 트림(대문자 높이 ~ 기준선)을 그대로 재현 */
+.cap-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* ===== header (고정) ===== */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 55px;
+  border-bottom: 2px solid #F8F8FA;
+  background: #FFFFFF;
+}
+
+.back-button {
+  position: absolute;
+  top: 17px;
+  left: 21px;
+  width: 21px;
+  height: 21px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-back {
+  display: block;
+  width: 21px;
+  height: 21px;
+}
+
+.board-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== 내가 쓴 게시글 목록 (스크롤) ===== */
+.content {
+  position: absolute;
+  top: 117px;
+  left: 0;
+  z-index: 1;
+  width: 393px;
+  height: 735px;
+  padding-bottom: 140px; /* 마지막 글이 그라데이션에 가리지 않도록 */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 쓴 글이 하나도 없을 때 */
+.empty {
+  padding: 250px 25px 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  text-align: center;
+}
+
+/* ===== 게시글 (bookmark / community 화면과 같은 모양) =====
+   지우기 버튼이 하나 더 붙어서 .post에 기준점을 준다. */
+.post {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 393px;
+  background: #FFFFFF;
+  /* 구분선을 안쪽에 그려서 게시글 높이가 늘어나지 않게 한다 */
+  box-shadow: inset 0 -1px 0 #F4F5F7;
+  cursor: pointer;
+}
+
+.post-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 97px;
+  height: 51px;
+  padding: 21px 20px 10px;
+  margin-bottom: -10px;
+}
+
+.cat-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 20px;
+  padding: 5px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 이 화면에만 있는 지우기 버튼 (bookmark 화면의 북마크 버튼과 같은 자리).
+   right는 아래 '~일 전'과 오른쪽 끝을 맞춘 값이다 (.post-info의 오른쪽 여백과 같다). */
+.post-delete {
+  position: absolute;
+  top: 21px;
+  right: 25px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-delete {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.cat-chip.cat-normal {
+  background: #EEF0FD;
+  color: #6868F4;
+}
+
+.cat-chip.cat-debate {
+  background: #FCEEF2;
+  color: #E0567C;
+}
+
+.cat-chip.cat-review {
+  background: #EAF7ED;
+  color: #3FA85A;
+}
+
+.post-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  width: 100%;
+  padding: 20px 25px;
+  margin-bottom: -10px;
+}
+
+.post-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+}
+
+.post-text {
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  color: #6C707E;
+}
+
+/* 스포일러를 포함한 게시글은 내용 대신 안내 문구를 보여준다 */
+.post-text.is-spoiler {
+  color: #EC6060;
+}
+
+/* 작품을 연결한 게시글에만 붙는 작품 줄 */
+.post-work {
+  position: relative;
+  width: 393px;
+  height: 64px;
+  margin-bottom: -10px;
+  overflow: hidden;
+}
+
+.work-chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 343px;
+  height: 42px;
+  border-radius: 10px;
+  background: #F8F8FA;
+  overflow: hidden;
+}
+
+.work-name {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 500;
+  font-size: 14px;
+  color: #6C707E;
+  white-space: nowrap;
+}
+
+.work-score {
+  position: absolute;
+  top: 50%;
+  left: 287px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #6C707E;
+  white-space: nowrap;
+}
+
+.icon-rating-star {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+/* 별점이 없는(일반 / 토론) 글에는 별점 대신 클립 아이콘이 붙는다 */
+.icon-link {
+  position: absolute;
+  top: 50%;
+  left: 305px;
+  transform: translateY(-50%);
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.post-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.post-reactions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 25px 20px;
+}
+
+.reaction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.icon-like {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-comment {
+  display: block;
+  width: 20px;
+  height: 19px;
+}
+
+.post-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 25px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+/* ===== 삭제 확인 카드 (search의 작품 추가 카드와 같은 모양) ===== */
+.dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 393px;
+  height: 852px;
+  background: rgba(108, 112, 126, 0.15);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.delete-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 26;
+  width: 250px;
+  height: 143px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(69, 71, 78, 0.15);
+  overflow: hidden;
+}
+
+.dim[hidden],
+.delete-card[hidden] {
+  display: none;
+}
+
+/* 제목이 길 수 있어서 cap-trim 없이 line-height로 높이를 잡는다
+   (대문자 높이까지 줄이면 overflow: hidden이 글자 아래를 잘라버린다) */
+.delete-title {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delete-desc {
+  position: absolute;
+  top: 63px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 300;
+  font-size: 13px;
+  color: #6C707E;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.delete-cancel,
+.delete-confirm {
+  position: absolute;
+  top: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 30px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.delete-cancel {
+  left: 28px;
+  background: #EBEDF1;
+  color: #828896;
+}
+
+.delete-confirm {
+  left: 136px;
+  background: #7F7EFF;
+  color: #FFFFFF;
+}
+
+.delete-cancel:focus-visible,
+.delete-confirm:focus-visible {
+  outline: 2px solid #7F7EFF;
+  outline-offset: 2px;
+}
+
+/* ===== 하단 그라데이션 (고정, bookmark 화면과 같은 모양) ===== */
+.bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  width: 393px;
+  height: 121px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(99, 94, 242, 0.05) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+}

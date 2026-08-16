@@ -1,0 +1,639 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Figma의 세로 트림(대문자 높이 ~ 기준선)을 그대로 재현 */
+.cap-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* ===== header (고정) ===== */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 55px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.back-button {
+  position: absolute;
+  top: 19px;
+  left: 21px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-back {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.board-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== 게시글 + 댓글 (스크롤) =====
+   header(62~117)와 댓글 작성바(782~852) 사이만 움직인다 */
+.content {
+  position: absolute;
+  top: 117px;
+  left: 0;
+  z-index: 1;
+  width: 393px;
+  height: 665px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== 게시글 ===== */
+.post-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 393px;
+  padding: 20px 25px;
+  /* 댓글 영역과 나누는 회색 띠 */
+  border-bottom: 10px solid #F8F8FA;
+  background: #FFFFFF;
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.detail-writer {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+/* 게시글 / 댓글 / 답글이 같이 쓰는 프로필 이미지 */
+.avatar {
+  position: relative;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: 0.5px solid #D7D9E1;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.avatar img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.detail-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  white-space: nowrap;
+}
+
+.detail-time {
+  font-weight: 400;
+  font-size: 12px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+/* 북마크 - 켜면 파란색으로 채워진다 */
+.bookmark-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-bookmark {
+  display: block;
+  width: 15px;
+  height: 19px;
+  fill: none;
+  stroke: #B8BCC8;
+}
+
+.bookmark-button.is-on .icon-bookmark {
+  fill: #7F7EFF;
+  stroke: #7F7EFF;
+}
+
+/* ===== 카테고리 / 제목 / 내용 ===== */
+.detail-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.cat-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 57px;
+  height: 20px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cat-chip.cat-normal {
+  background: #EEF0FD;
+  color: #6868F4;
+}
+
+.cat-chip.cat-debate {
+  background: #FCEEF2;
+  color: #E0567C;
+}
+
+.cat-chip.cat-review {
+  background: #EAF7ED;
+  color: #3FA85A;
+}
+
+.detail-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 18px;
+  color: #313338;
+}
+
+.detail-text {
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 23px;
+  color: #45474E;
+  /* 데이터의 줄바꿈(\n)을 그대로 살린다 */
+  white-space: pre-line;
+}
+
+/* ===== 별점 배너 (후기 게시글) =====
+   home의 작품 배너와 같은 모양이고, 게시글 안쪽 폭(343px)에 맞춰 넣는다 */
+.rating-banner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 126px;
+  margin-bottom: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rating-banner[hidden] {
+  display: none;
+}
+
+.work-cover {
+  flex: 0 0 89px;
+  width: 89px;
+  height: 126px;
+  border-radius: 10px 0 0 10px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.work-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.work-info {
+  position: relative;
+  flex: 1 1 auto;
+  height: 126px;
+  border-top: 0.7px solid #E3E5EB;
+  border-right: 0.7px solid #E3E5EB;
+  border-bottom: 0.7px solid #E3E5EB;
+  border-radius: 0 10px 10px 0;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.work-text {
+  position: absolute;
+  top: 50%;
+  left: 22.5px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  width: 220px;
+}
+
+/* 줄바꿈 자리를 정해 둔 작품(WORKS의 titleLines)은 그 모양대로 두 줄로 놓인다 */
+.work-title {
+  font-weight: 500;
+  font-size: 16px;
+  color: #313338;
+  white-space: pre-line;
+}
+
+/* [닉네임 - 글쓴이 별점] - [작품 전체 별점] */
+.work-rating {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rating-mine {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 별점 없이 작품만 연결한 글에는 글쓴이 별점이 붙지 않는다 */
+.rating-mine[hidden] {
+  display: none;
+}
+
+.rating-user {
+  font-weight: 500;
+  font-size: 11px;
+  color: #313338;
+  white-space: nowrap;
+}
+
+.rating-score {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.icon-star {
+  display: block;
+  width: 10px;
+  height: 10px;
+  fill: #EC6060;
+}
+
+.rating-score .score {
+  font-weight: 300;
+  font-size: 11px;
+  color: #EC6060;
+}
+
+/* 전체 별점은 회색 */
+.rating-score.is-all .icon-star {
+  fill: #828896;
+}
+
+.rating-score.is-all .score {
+  color: #828896;
+}
+
+.work-desc {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  color: #828896;
+  /* 소개글의 줄바꿈(\n)을 그대로 살린다 */
+  white-space: pre-line;
+}
+
+/* ===== 하트 / 댓글 수 / 조회수 ===== */
+.detail-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 5px;
+}
+
+.detail-reactions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.like-button,
+.reaction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-weight: 400;
+  font-size: 14px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.like-button {
+  cursor: pointer;
+}
+
+.icon-like {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: #B8BCC8;
+  transition: fill 0.15s ease;
+}
+
+/* 하트를 누른 상태 */
+.like-button.is-on {
+  color: #EC6060;
+}
+
+.like-button.is-on .icon-like {
+  fill: #EC6060;
+}
+
+.icon-comment {
+  display: block;
+  width: 20px;
+  height: 19px;
+}
+
+.detail-views {
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+/* ===== 댓글 ===== */
+.comment-list {
+  list-style: none;
+  /* 마지막 댓글이 작성바에 가리지 않도록 */
+  padding-bottom: 20px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  width: 393px;
+  padding: 20px 22px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+
+.comment-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  width: 296px;
+  padding: 4px 0;
+}
+
+.comment-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.comment-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #313338;
+}
+
+.comment-time {
+  font-weight: 400;
+  font-size: 12px;
+  color: #9196A3;
+}
+
+.comment-text {
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  color: #45474E;
+  word-break: break-word;
+}
+
+/* ===== 답글 ===== */
+.comment.is-reply {
+  gap: 0;
+  padding: 10px 22px;
+}
+
+.icon-reply-arrow {
+  display: block;
+  flex: 0 0 49.921px;
+  width: 49.921px;
+  height: 25.967px;
+}
+
+.reply-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  width: 299px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #F4F5F7;
+}
+
+.comment.is-reply .comment-main {
+  width: 216px;
+}
+
+/* 답글을 달려고 고른 댓글 */
+.comment.is-target {
+  background: #FAFAFD;
+}
+
+.comment.is-reply.is-target .reply-box {
+  background: #ECEDF7;
+}
+
+/* ===== 댓글 작성바 (고정) ===== */
+.comment-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 393px;
+  height: 70px;
+  padding: 15px 18px 15px 15px;
+  background: #FFFFFF;
+  filter: drop-shadow(0 -4px 10px rgba(99, 94, 242, 0.05));
+}
+
+.comment-field {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  flex: 1 1 auto;
+  height: 40px;
+  padding: 0 15px;
+  border-radius: 10px;
+  background: #F4F5F7;
+}
+
+/* 익명 체크박스 */
+.anon-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 실제 입력은 숨기고 .anon-box를 대신 보여준다 */
+.anon-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.anon-box {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #B6B3FF;
+  border-radius: 3px;
+  background: #FFFFFF;
+}
+
+.anon-input:checked + .anon-box {
+  border-color: #635EF2;
+  background: #635EF2;
+}
+
+/* 체크 표시 */
+.anon-input:checked + .anon-box::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 4px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.anon-label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #635EF2;
+  white-space: nowrap;
+}
+
+.comment-input {
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 4.5px 0;
+  border: none;
+  background: transparent;
+  font-weight: 400;
+  font-size: 13px;
+  color: #45474E;
+  outline: none;
+}
+
+.comment-input::placeholder {
+  color: #9196A3;
+}
+
+.send-button {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-send {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+/* ===== 키보드 포커스 표시 ===== */
+.rating-banner:focus-visible,
+.comment:focus-visible {
+  outline: 2px solid #7F7EFF;
+  outline-offset: -2px;
+  border-radius: 10px;
+}

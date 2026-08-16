@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>덧글</title>
+
+    <!-- 브라우저 탭 아이콘 -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="css/community.css">
+
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- status-bar (고정) -->
+    <img class="status-bar" src="assets/status-bar.png" alt="상태바">
+
+    <!-- header (고정) -->
+    <header class="header">
+      <button class="back-button" id="backBtn" aria-label="뒤로 가기">
+        <img class="icon-back" src="assets/icon-back.svg" alt="">
+      </button>
+      <!-- 게시판 이름은 js/community.js가 게시판에 맞게 채운다 -->
+      <h1 class="board-title cap-trim" id="boardTitle"></h1>
+    </header>
+
+    <!-- menu bar (고정) -->
+    <div class="menu-bar">
+      <button class="category-button" id="categoryBtn" aria-haspopup="true" aria-expanded="false">
+        <span class="category-label cap-trim" id="categoryLabel">전체</span>
+        <img class="icon-dropdown" src="assets/icon-dropdown.svg" alt="">
+      </button>
+
+      <div class="spoiler-control">
+        <span class="spoiler-label cap-trim">스포일러 숨기기</span>
+        <button class="toggle" id="spoilerToggle" role="switch" aria-checked="false" aria-label="스포일러 숨기기">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 게시글 목록 (스크롤) - js/community.js가 게시판 데이터로 그린다 -->
+    <main class="content" id="postList"></main>
+
+    <!-- 하단 그라데이션 (고정) -->
+    <div class="bottom-fade"></div>
+
+    <!-- 글쓰기 버튼 (고정) -->
+    <button class="write-button" id="writeBtn" aria-label="글쓰기">
+      <img class="icon-pen" src="assets/icon-pen.svg" alt="">
+    </button>
+
+    <!-- 카테고리 dropdown (기본 숨김) -->
+    <div class="dim" id="dim" hidden></div>
+
+    <nav class="category-menu" id="categoryMenu" hidden>
+      <!-- '전체'는 data-category를 비워두어 필터를 끄는 값으로 쓴다 -->
+      <button class="category-option cap-trim is-selected" data-category="">전체</button>
+      <button class="category-option cap-trim" data-category="일반">일반</button>
+      <button class="category-option cap-trim" data-category="토론">토론</button>
+      <button class="category-option cap-trim" data-category="후기">후기</button>
+    </nav>
+
+  </div>
+
+<script src="js/data.js"></script>
+<script src="js/community.js"></script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* header (고정) */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 55px;
+  background: #FFFFFF;
+}
+
+.header .logo {
+  position: absolute;
+  top: 9px;
+  left: 24px;
+  width: 37px;
+  height: 37px;
+  object-fit: contain;
+}
+
+.header .service-name {
+  position: absolute;
+  top: 11px;
+  left: 67px;
+  width: 59px;
+  height: 33px;
+  object-fit: contain;
+}
+
+.notification {
+  position: absolute;
+  top: 13px;
+  left: 340px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.notification .icon-notification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* ===== 스크롤 영역 (헤더 아래 ~ 화면 끝) ===== */
+.content {
+  position: absolute;
+  top: 117px;
+  left: 0;
+  z-index: 1;
+  width: 393px;
+  height: 735px;
+  padding-top: 21px;
+  padding-bottom: 130px; /* 떠 있는 내비게이터에 마지막 카드가 가리지 않도록 */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 섹션 제목 공통 */
+.section-title {
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 20px;
+  color: #313338;
+}
+
+/* search-bar */
+.search-bar {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  width: 349px;
+  height: 45px;
+  border: none;
+  /* Figma의 inside stroke - border를 쓰면 안쪽 요소가 선 두께만큼 밀린다 */
+  box-shadow: inset 0 0 0 1.2px #B6B3FF;
+  border-radius: 25px;
+  background: #F4F3FE;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+}
+
+.search-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 15.8px;
+  transform: translateY(-50%);
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.icon-search {
+  position: absolute;
+  top: 9.8px;
+  left: 308.8px;
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+
+/* ===== 테마 게시판 ===== */
+.theme-section {
+  width: 369px;
+  margin: 27px auto 0;
+}
+
+.theme-title {
+  padding: 8px 18px;
+}
+
+/* 테마 게시판 실린더 (드래그로 넘김) */
+.theme-slider {
+  display: flex;
+  gap: 20px;
+  width: 369px;
+  height: 70px;
+  padding: 0 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  outline: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.theme-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.theme-slider.dragging {
+  cursor: grabbing;
+}
+
+.theme-banner {
+  position: relative;
+  flex: 0 0 349px;
+  width: 349px;
+  height: 70px;
+  border-radius: 10px;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 드래그 중에는 배너 위에서도 슬라이더와 같은 커서를 유지한다 */
+.theme-slider.dragging .theme-banner {
+  cursor: grabbing;
+}
+
+.banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.banner-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 349px;
+  height: 70px;
+}
+
+/* 배너 1 */
+.theme-banner:nth-child(1) .banner-gradient {
+  background: linear-gradient(-90deg, rgba(217, 217, 217, 0) 4%, #6F92DE 100%);
+}
+
+/* 배너 2 */
+.theme-banner:nth-child(2) .banner-gradient {
+  background: linear-gradient(-90deg, rgba(217, 217, 217, 0) 4%, #686194 100%);
+}
+
+/* 배너 3 */
+.theme-banner:nth-child(3) .banner-gradient {
+  background: linear-gradient(-90deg, rgba(217, 217, 217, 0) 4%, #D2867A 100%);
+}
+
+.banner-title {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  padding: 2px 20px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.banner-desc {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  padding: 2px 20px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+/* 배너 1, 2 텍스트 그림자 */
+.theme-banner:nth-child(1) .banner-title,
+.theme-banner:nth-child(1) .banner-desc,
+.theme-banner:nth-child(2) .banner-title,
+.theme-banner:nth-child(2) .banner-desc {
+  filter: drop-shadow(0px 1px 2px rgba(68, 65, 196, 0.3));
+}
+
+/* 배너 3 텍스트 그림자 */
+.theme-banner:nth-child(3) .banner-title,
+.theme-banner:nth-child(3) .banner-desc {
+  filter: drop-shadow(0px 1px 2px rgba(137, 43, 43, 0.3));
+}
+
+/* dot indicator */
+.dot-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D7D9E1;
+  transition: width 0.3s ease, border-radius 0.3s ease, background-color 0.3s ease;
+}
+
+.dot.active {
+  width: 13px;
+  height: 7px;
+  border-radius: 5px;
+  background: #7F7EFF;
+}
+
+/* ===== 내 게시판 ===== */
+.board-section {
+  width: 393px;
+  margin-top: 5px;
+}
+
+.board-title {
+  padding: 8px 30px;
+}
+
+/* 가로 스크롤 띠 (드래그로 넘김) */
+.board-strip {
+  width: 393px;
+  background: #F8F8FA;
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.board-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.board-strip.dragging {
+  cursor: grabbing;
+}
+
+.board-list {
+  display: flex;
+  gap: 15px;
+  width: max-content;
+  padding: 20px 22px;
+}
+
+.board-card {
+  position: relative;
+  flex: 0 0 110px;
+  width: 110px;
+  height: 150px;
+  border-radius: 7px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+}
+
+/* 내 게시판 맨 끝의 + 버튼 (누르면 search로 간다) */
+.board-add {
+  flex: 0 0 56px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  color: #7F7EFF;
+  cursor: pointer;
+}
+
+.board-add svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.board-cover {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 157px;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.board-detail {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 110px;
+  height: 74px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+/* 제목이 길면 끝을 ...으로 줄인다 (카드 폭이 정해져 있다) */
+.board-name {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 110px;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: 11px;
+  color: #313338;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.board-new {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-size: 9px;
+  color: #828896;
+  white-space: nowrap;
+}
+
+.board-meta {
+  position: absolute;
+  top: 52px;
+  left: 11px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.meta-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.icon-star,
+.icon-heart {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+.board-meta .score {
+  font-weight: 300;
+  font-size: 10px;
+  color: #EC6060;
+}
+
+.board-meta .likes {
+  font-weight: 300;
+  font-size: 10px;
+  color: #828896;
+}
+
+/* ===== 오늘의 추천 작품 ===== */
+.recommend-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 349px;
+  margin: 20px auto 0;
+}
+
+.recommend-title {
+  padding: 10px 5px;
+}
+
+.work-banner {
+  display: flex;
+  align-items: center;
+  width: 349px;
+  height: 126px;
+  cursor: pointer;
+  outline: none;
+}
+
+.work-cover {
+  flex: 0 0 89px;
+  width: 89px;
+  height: 126px;
+  border-radius: 10px 0 0 10px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.work-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.work-info {
+  position: relative;
+  flex: 0 0 260px;
+  width: 260px;
+  height: 126px;
+  border-top: 0.7px solid #E3E5EB;
+  border-right: 0.7px solid #E3E5EB;
+  border-bottom: 0.7px solid #E3E5EB;
+  border-radius: 0 10px 10px 0;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.work-text {
+  position: absolute;
+  top: 50%;
+  left: 22.5px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  width: 220px;
+}
+
+.work-title {
+  font-weight: 500;
+  font-size: 16px;
+  color: #313338;
+}
+
+.work-rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.work-rating .score {
+  font-weight: 300;
+  font-size: 11px;
+  color: #EC6060;
+}
+
+.work-desc {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  color: #828896;
+}
+
+/* ===== 클릭되는 배너들 (키보드 포커스 표시) ===== */
+.theme-banner:focus-visible,
+.board-card:focus-visible,
+.board-add:focus-visible,
+.work-banner:focus-visible {
+  outline: 2px solid #7F7EFF;
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* ===== 내비게이터 (고정) ===== */
+.navigator {
+  position: absolute;
+  top: 760px;
+  left: 57px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 55px;
+  width: 281px;
+  height: 58px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12.5px);
+  -webkit-backdrop-filter: blur(12.5px);
+  box-shadow: 7px 6px 14px rgba(69, 114, 104, 0.1),
+              inset 2px 2px 6px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+
+.nav-item {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6C707E;
+  transition: color 0.2s ease;
+}
+
+.nav-item svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.nav-item.is-active {
+  color: #635EF2;
+}

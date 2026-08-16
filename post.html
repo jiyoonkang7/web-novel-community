@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>덧글</title>
+
+    <!-- 브라우저 탭 아이콘 -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="css/post.css">
+
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- status-bar (고정) -->
+    <img class="status-bar" src="assets/status-bar.png" alt="상태바">
+
+    <!-- header (고정) - 뒤로 가기를 누르면 이 글이 있던 community로 돌아간다 -->
+    <header class="header">
+      <button class="back-button" id="backBtn" aria-label="뒤로 가기">
+        <img class="icon-back" src="assets/icon-back.svg" alt="">
+      </button>
+      <h1 class="board-title cap-trim">게시글</h1>
+    </header>
+
+    <!-- 게시글 + 댓글 (스크롤) - 내용은 js/post.js가 채운다 -->
+    <main class="content" id="content">
+
+      <article class="post-detail">
+
+        <div class="detail-head">
+          <div class="detail-writer">
+            <span class="avatar"><img id="postAvatar" src="assets/profile.jpg" alt=""></span>
+            <p class="detail-name cap-trim" id="postAuthor"></p>
+            <p class="detail-time cap-trim" id="postTime"></p>
+          </div>
+
+          <!-- 켜고 끌 때 색이 바뀌어야 해서 assets/icon-bookmark.svg의 path를 그대로 넣었다 -->
+          <button class="bookmark-button" id="bookmarkBtn" aria-pressed="false" aria-label="북마크">
+            <svg class="icon-bookmark" width="15" height="19" viewBox="0 0 15 19"
+                 fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14.5 0.5H0.5V18.5L7.0625 15.5811L14.5 18.5V0.5Z"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="detail-body">
+          <span class="cat-chip" id="postCategory"></span>
+          <p class="detail-title cap-trim" id="postTitle"></p>
+          <p class="detail-text cap-trim" id="postText"></p>
+        </div>
+
+        <!-- 별점 배너 (후기 게시글일 때만 js/post.js가 채우고 보여준다)
+             home의 '오늘의 추천 작품' 배너와 같은 모양이고, 별점 줄만 두 개다.
+             별 색을 따로 줘야 해서 assets/icon-star.svg의 path를 그대로 넣었다. -->
+        <button class="rating-banner" id="ratingBanner" type="button" hidden>
+          <span class="work-cover"><img id="ratingCover" src="" alt=""></span>
+          <span class="work-info">
+            <span class="work-text">
+              <span class="work-title" id="ratingTitle"></span>
+
+              <span class="work-rating">
+                <!-- 글쓴이가 매긴 별점 -->
+                <span class="rating-mine">
+                  <span class="rating-user cap-trim" id="ratingUser"></span>
+                  <span class="rating-score">
+                    <svg class="icon-star" width="10" height="10" viewBox="0 0 10 10"
+                         fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3.17708 2.94444L4.34375 1.43403C4.42708 1.32292 4.52604 1.24132 4.64062 1.18924C4.75521 1.13715 4.875 1.11111 5 1.11111C5.125 1.11111 5.24479 1.13715 5.35937 1.18924C5.47396 1.24132 5.57292 1.32292 5.65625 1.43403L6.82292 2.94444L8.59375 3.53819C8.7743 3.59375 8.91667 3.69618 9.02083 3.84549C9.125 3.99479 9.17708 4.15972 9.17708 4.34028C9.17708 4.42361 9.16493 4.50694 9.14062 4.59028C9.11632 4.67361 9.07639 4.75347 9.02083 4.82986L7.875 6.45486L7.91667 8.16319C7.92361 8.40625 7.84375 8.61111 7.67708 8.77778C7.51042 8.94444 7.31597 9.02778 7.09375 9.02778C7.07986 9.02778 7.00347 9.01736 6.86458 8.99653L5 8.47569L3.13542 8.99653C3.10069 9.01042 3.0625 9.0191 3.02083 9.02257C2.97917 9.02604 2.94097 9.02778 2.90625 9.02778C2.68403 9.02778 2.48958 8.94444 2.32292 8.77778C2.15625 8.61111 2.07639 8.40625 2.08333 8.16319L2.125 6.44444L0.989583 4.82986C0.934028 4.75347 0.894097 4.67361 0.869792 4.59028C0.845486 4.50694 0.833333 4.42361 0.833333 4.34028C0.833333 4.16667 0.883681 4.00521 0.984375 3.8559C1.08507 3.7066 1.22569 3.60069 1.40625 3.53819L3.17708 2.94444Z"/>
+                    </svg>
+                    <span class="score cap-trim" id="ratingMine"></span>
+                  </span>
+                </span>
+
+                <!-- 작품 전체 별점 -->
+                <span class="rating-score is-all">
+                  <svg class="icon-star" width="10" height="10" viewBox="0 0 10 10"
+                       fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M3.17708 2.94444L4.34375 1.43403C4.42708 1.32292 4.52604 1.24132 4.64062 1.18924C4.75521 1.13715 4.875 1.11111 5 1.11111C5.125 1.11111 5.24479 1.13715 5.35937 1.18924C5.47396 1.24132 5.57292 1.32292 5.65625 1.43403L6.82292 2.94444L8.59375 3.53819C8.7743 3.59375 8.91667 3.69618 9.02083 3.84549C9.125 3.99479 9.17708 4.15972 9.17708 4.34028C9.17708 4.42361 9.16493 4.50694 9.14062 4.59028C9.11632 4.67361 9.07639 4.75347 9.02083 4.82986L7.875 6.45486L7.91667 8.16319C7.92361 8.40625 7.84375 8.61111 7.67708 8.77778C7.51042 8.94444 7.31597 9.02778 7.09375 9.02778C7.07986 9.02778 7.00347 9.01736 6.86458 8.99653L5 8.47569L3.13542 8.99653C3.10069 9.01042 3.0625 9.0191 3.02083 9.02257C2.97917 9.02604 2.94097 9.02778 2.90625 9.02778C2.68403 9.02778 2.48958 8.94444 2.32292 8.77778C2.15625 8.61111 2.07639 8.40625 2.08333 8.16319L2.125 6.44444L0.989583 4.82986C0.934028 4.75347 0.894097 4.67361 0.869792 4.59028C0.845486 4.50694 0.833333 4.42361 0.833333 4.34028C0.833333 4.16667 0.883681 4.00521 0.984375 3.8559C1.08507 3.7066 1.22569 3.60069 1.40625 3.53819L3.17708 2.94444Z"/>
+                  </svg>
+                  <span class="score cap-trim" id="ratingAll"></span>
+                </span>
+              </span>
+
+              <span class="work-desc" id="ratingDesc"></span>
+            </span>
+          </span>
+        </button>
+
+        <div class="detail-footer">
+          <div class="detail-reactions">
+            <!-- 누르면 #EC6060으로 바뀌어야 해서 assets/icon-like.svg의 path를 그대로 넣었다 -->
+            <button class="like-button" id="likeBtn" aria-pressed="false" aria-label="마음">
+              <svg class="icon-like" width="20" height="20" viewBox="0 0 20 20"
+                   fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path transform="translate(1.664 2.5)" d="M9.46131 14.2755C8.82798 14.8505 7.85298 14.8505 7.21964 14.2672L7.12798 14.1839C2.75298 10.2255 -0.105357 7.63388 0.00297588 4.40055C0.0529759 2.98388 0.777976 1.62555 1.95298 0.825545C4.15298 -0.674455 6.86964 0.0255452 8.33631 1.74221C9.80298 0.0255452 12.5196 -0.682788 14.7196 0.825545C15.8946 1.62555 16.6196 2.98388 16.6696 4.40055C16.7863 7.63388 13.9196 10.2255 9.54464 14.2005L9.46131 14.2755Z"/>
+              </svg>
+              <span class="cap-trim" id="likeCount"></span>
+            </button>
+
+            <span class="reaction">
+              <img class="icon-comment" src="assets/icon-comment.svg" alt="댓글">
+              <span class="cap-trim" id="commentCount"></span>
+            </span>
+          </div>
+
+          <p class="detail-views cap-trim" id="postViews"></p>
+        </div>
+
+      </article>
+
+      <!-- 댓글 / 답글 - js/post.js가 그린다 -->
+      <ul class="comment-list" id="commentList"></ul>
+
+    </main>
+
+    <!-- 댓글 작성바 (고정) -->
+    <form class="comment-bar" id="commentForm">
+      <div class="comment-field">
+        <label class="anon-check">
+          <input class="anon-input" type="checkbox" id="anonCheck">
+          <span class="anon-box"></span>
+          <span class="anon-label cap-trim">익명</span>
+        </label>
+        <input class="comment-input" id="commentInput" type="text"
+               placeholder="댓글을 남겨보세요." autocomplete="off">
+      </div>
+
+      <button class="send-button" type="submit" aria-label="보내기">
+        <img class="icon-send" src="assets/icon-send.svg" alt="">
+      </button>
+    </form>
+
+  </div>
+
+<script src="js/data.js"></script>
+<script src="js/post.js"></script>
+</body>
+</html>

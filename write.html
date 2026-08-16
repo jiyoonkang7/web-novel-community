@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>덧글</title>
+
+    <!-- 브라우저 탭 아이콘 -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+    <link rel="stylesheet" href="css/write.css">
+
+</head>
+
+<body>
+
+  <div class="phone">
+
+    <!-- status-bar (고정) -->
+    <img class="status-bar" src="assets/status-bar.png" alt="상태바">
+
+    <!-- header (고정)
+         뒤로 가기 : 글쓰기 버튼을 눌렀던 community로 돌아간다 (쓰던 글은 버린다)
+         등록      : 그 community 게시판에 글을 올리고 돌아간다 -->
+    <header class="header">
+      <button class="back-button" id="backBtn" type="button" aria-label="뒤로 가기">
+        <img class="icon-back" src="assets/icon-back.svg" alt="">
+      </button>
+      <h1 class="board-title cap-trim">게시글 작성</h1>
+      <button class="submit-button cap-trim" id="submitBtn" type="button">등록</button>
+    </header>
+
+    <!-- 작성칸 (스크롤) - 내용이 길어지면 아래로 밀리면서 늘어난다 -->
+    <div class="content" id="content">
+
+      <!-- 글을 올릴 게시판 이름은 js/write.js가 채운다 -->
+      <p class="board-name cap-trim" id="boardName"></p>
+
+      <div class="write-row">
+        <button class="category-button" id="categoryBtn" type="button"
+                aria-haspopup="listbox" aria-expanded="false">
+          <span class="category-label cap-trim" id="categoryLabel">일반</span>
+          <img class="icon-dropdown" src="assets/icon-dropdown.svg" alt="">
+        </button>
+
+        <!-- 체크하면 닉네임 대신 '익명'으로 올라간다 -->
+        <label class="anon-check">
+          <input class="anon-input" type="checkbox" id="anonCheck">
+          <span class="anon-box"></span>
+          <span class="anon-label cap-trim">익명</span>
+        </label>
+      </div>
+
+      <input class="title-input" id="titleInput" type="text"
+             maxlength="30" placeholder="제목을 입력해주세요." autocomplete="off">
+
+      <!-- rows="1"로 두고 js/write.js가 적은 만큼 높이를 늘린다 -->
+      <textarea class="text-input" id="textInput" rows="1"
+                maxlength="500" placeholder="내용을 입력해주세요."></textarea>
+
+      <!-- 켜두면 community 목록에서 내용 대신 '스포일러 포함'으로 보인다 -->
+      <div class="spoiler-box">
+        <p class="spoiler-text cap-trim">잠깐, <b>스포일러</b>가 있나요?</p>
+        <button class="toggle" id="spoilerToggle" type="button"
+                role="switch" aria-checked="false" aria-label="스포일러 포함">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+
+      <!-- 작품 바 - 무엇이 붙는지는 게시판과 카테고리에 따라 달라진다 (js/write.js)
+             별점  : 후기를 골랐을 때. 오른쪽에 매긴 별점이 붙는다
+             검색  : 테마 게시판에서 아직 작품을 고르지 않았을 때. 누르면 검색창이 올라온다
+             연결  : 테마 게시판의 일반 / 토론 글에 작품을 골랐을 때. 오른쪽에 클립이 붙는다 -->
+      <button class="rating-bar" id="ratingBar" type="button" hidden>
+        <span class="rating-bar-label cap-trim" id="ratingBarLabel">별점</span>
+        <span class="rating-bar-score" id="ratingBarScoreBox">
+          <img class="icon-star" src="assets/icon-star.svg" alt="">
+          <span class="cap-trim" id="ratingBarScore">0.0</span>
+        </span>
+        <img class="icon-work-search" id="workSearchIcon" src="assets/icon-search-gray.svg" alt="" hidden>
+        <img class="icon-work-link" id="workLinkIcon" src="assets/icon-link.svg" alt="" hidden>
+      </button>
+
+    </div>
+
+    <!-- 카테고리 dropdown / 별점 작성 카드가 열렸을 때 깔리는 막 -->
+    <div class="dim" id="dim" hidden></div>
+
+    <!-- 게시글 카테고리 dropdown (기본 접힘)
+         여는 위치는 js/write.js가 카테고리 버튼 아래로 맞춰준다 -->
+    <div class="category-menu" id="categoryMenu" role="listbox" hidden>
+      <button class="category-option" type="button" role="option" data-category="일반">
+        <span class="option-name cap-trim">일반</span>
+        <span class="option-desc cap-trim">웹소설에 대한 자유로운 감상</span>
+      </button>
+      <button class="category-option" type="button" role="option" data-category="토론">
+        <span class="option-name cap-trim">토론</span>
+        <span class="option-desc cap-trim">다양한 주제로 이어가는 토론</span>
+      </button>
+      <button class="category-option" type="button" role="option" data-category="후기">
+        <span class="option-name cap-trim">후기</span>
+        <span class="option-desc cap-trim">읽고나서 적는 생생한 후기</span>
+      </button>
+    </div>
+
+    <!-- 별점 작성 카드 (별점 작성바를 누르면 뜬다)
+         별 다섯 개는 js/write.js가 매긴 별점에 맞춰 이미지를 바꿔 끼운다 -->
+    <div class="rating-card" id="ratingCard" hidden>
+      <p class="rating-card-title cap-trim">작품에 대한 별점을 남겨주세요!</p>
+
+      <div class="rating-stars" id="ratingStars">
+        <button class="star" type="button" data-value="1" aria-label="별 1개">
+          <img src="assets/icon-star-empty.svg" alt="">
+        </button>
+        <button class="star" type="button" data-value="2" aria-label="별 2개">
+          <img src="assets/icon-star-empty.svg" alt="">
+        </button>
+        <button class="star" type="button" data-value="3" aria-label="별 3개">
+          <img src="assets/icon-star-empty.svg" alt="">
+        </button>
+        <button class="star" type="button" data-value="4" aria-label="별 4개">
+          <img src="assets/icon-star-empty.svg" alt="">
+        </button>
+        <button class="star" type="button" data-value="5" aria-label="별 5개">
+          <img src="assets/icon-star-empty.svg" alt="">
+        </button>
+      </div>
+
+      <p class="rating-card-score cap-trim" id="ratingCardScore">0.0</p>
+
+      <button class="rating-done cap-trim" id="ratingDone" type="button">완료</button>
+    </div>
+
+    <!-- 관련 작품 검색창 (테마 게시판에서만 쓴다)
+         아래에서 올라오고, x를 누르면 다시 아래로 내려간다.
+         작품 목록은 js/write.js가 WORKS로 그린다. -->
+    <section class="work-sheet" id="workSheet" aria-hidden="true">
+      <p class="sheet-title cap-trim">관련 작품 검색</p>
+      <p class="sheet-desc cap-trim">작성 중인 글과 관련된 작품을 선택하세요!</p>
+
+      <button class="sheet-close" id="sheetClose" type="button" aria-label="닫기">
+        <img class="icon-close" src="assets/icon-close.svg" alt="">
+      </button>
+
+      <div class="sheet-search">
+        <input class="sheet-input" id="workInput" type="text"
+               placeholder="관련 작품을 검색하세요" autocomplete="off">
+        <button class="sheet-search-button" id="workSearchBtn" type="button" aria-label="검색">
+          <img class="icon-search" src="assets/icon-search-gray.svg" alt="">
+        </button>
+      </div>
+
+      <div class="sheet-list" id="workList"></div>
+    </section>
+
+  </div>
+
+<script src="js/data.js"></script>
+<script src="js/write.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #F9F9FF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* status-bar UI */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* 가운데 로고 */
+.logo {
+  position: absolute;
+  top: 246px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 125.2px;
+  height: 125.2px;
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 17.885px rgba(87, 85, 250, 0.3));
+}
+
+/* 서비스명 */
+.logo-name {
+  position: absolute;
+  top: 390px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 69.75px;
+  height: 39.35px;
+  object-fit: contain;
+}
+
+/* 슬로건 */
+.slogan {
+  position: absolute;
+  top: 439px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 400;
+  font-size: 14.3px;
+  line-height: 10px; /* Figma 텍스트 박스(cap height) 기준 */
+  color: #4441C4;
+  white-space: nowrap;
+}
+
+/* 공통 버튼 */
+.btn {
+  position: absolute;
+  left: 31px;
+  width: 332px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  position: absolute;
+  object-fit: cover;
+}
+
+.btn-text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+/* 카카오톡 시작 버튼 */
+.btn-kakao {
+  top: 558px;
+  background: #FAE84D;
+}
+
+.btn-kakao .icon-kakao {
+  top: 19px;
+  left: 23px;
+  width: 23px;
+  height: 23px;
+}
+
+.btn-kakao .btn-text {
+  color: #3B1E1E;
+}
+
+/* Apple 시작 버튼 */
+.btn-apple {
+  top: 632px;
+  background: #EBEDF1;
+}
+
+.btn-apple .icon-apple {
+  top: 16px;
+  left: 24px;
+  width: 21px;
+  height: 26px;
+  opacity: 0.765;
+}
+
+.btn-apple .btn-text {
+  color: #313338;
+}
+
+/* 하단 링크 */
+.bottom-links {
+  position: absolute;
+  top: 729px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -1px;
+  color: #828896;
+  text-align: center;
+  white-space: pre;
+}

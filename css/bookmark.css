@@ -1,0 +1,380 @@
+/* 다른 화면과 UI를 맞춘다.
+   status-bar / header / 게시글 / 하단 그라데이션은 css/community.css와 같은 모양이고,
+   내비게이터는 css/home.css와 같은 모양이다.
+   이 화면에는 카테고리 메뉴가 없어서 목록이 header 바로 아래에서 시작하고,
+   게시글마다 바로 북마크를 풀 수 있는 버튼이 하나씩 더 붙는다. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Figma의 세로 트림(대문자 높이 ~ 기준선)을 그대로 재현 */
+.cap-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* ===== header (고정) ===== */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 55px;
+  border-bottom: 2px solid #F8F8FA;
+  background: #FFFFFF;
+}
+
+.board-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== 북마크한 게시글 목록 (스크롤) ===== */
+.content {
+  position: absolute;
+  top: 117px;
+  left: 0;
+  z-index: 1;
+  width: 393px;
+  height: 735px;
+  padding-bottom: 140px; /* 마지막 글이 내비게이터에 가리지 않도록 */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 북마크한 글이 하나도 없을 때 */
+.empty {
+  padding: 250px 25px 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  text-align: center;
+}
+
+/* ===== 게시글 (community 화면과 같은 모양) =====
+   북마크 버튼만 이 화면에서 추가로 붙어서 .post에 기준점을 준다. */
+.post {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 393px;
+  background: #FFFFFF;
+  /* 구분선을 안쪽에 그려서 게시글 높이가 늘어나지 않게 한다 */
+  box-shadow: inset 0 -1px 0 #F4F5F7;
+  cursor: pointer;
+}
+
+.post-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 97px;
+  height: 51px;
+  padding: 21px 20px 10px;
+  margin-bottom: -10px;
+}
+
+.cat-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 20px;
+  padding: 5px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 이 화면에서만 쓰는 북마크 버튼 (카테고리 칩과 같은 높이의 오른쪽 끝).
+   right는 아래 '~일 전'과 오른쪽 끝을 맞춘 값이다 (.post-info의 오른쪽 여백과 같다).
+   목록에 있는 글은 모두 북마크한 글이라 항상 켜진 상태로 그린다. */
+.post-bookmark {
+  position: absolute;
+  top: 21px;
+  right: 25px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-bookmark {
+  display: block;
+  width: 15px;
+  height: 19px;
+  fill: none;
+  stroke: #B8BCC8;
+}
+
+.post-bookmark.is-on .icon-bookmark {
+  fill: #7F7EFF;
+  stroke: #7F7EFF;
+}
+
+
+.cat-chip.cat-normal {
+  background: #EEF0FD;
+  color: #6868F4;
+}
+
+.cat-chip.cat-debate {
+  background: #FCEEF2;
+  color: #E0567C;
+}
+
+.cat-chip.cat-review {
+  background: #EAF7ED;
+  color: #3FA85A;
+}
+
+.post-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  width: 100%;
+  padding: 20px 25px;
+  margin-bottom: -10px;
+}
+
+.post-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+}
+
+.post-text {
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  color: #6C707E;
+}
+
+/* 스포일러를 포함한 게시글은 내용 대신 안내 문구를 보여준다 */
+.post-text.is-spoiler {
+  color: #EC6060;
+}
+
+/* 후기 게시글에만 붙는 작품 정보 */
+.post-work {
+  position: relative;
+  width: 393px;
+  height: 64px;
+  margin-bottom: -10px;
+  overflow: hidden;
+}
+
+.work-chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 343px;
+  height: 42px;
+  border-radius: 10px;
+  background: #F8F8FA;
+  overflow: hidden;
+}
+
+.work-name {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 500;
+  font-size: 14px;
+  color: #6C707E;
+  white-space: nowrap;
+}
+
+.work-score {
+  position: absolute;
+  top: 50%;
+  left: 287px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #6C707E;
+  white-space: nowrap;
+}
+
+.icon-rating-star {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+/* 별점이 없는(일반 / 토론) 글에는 별점 대신 클립 아이콘이 붙는다 */
+.icon-link {
+  position: absolute;
+  top: 50%;
+  left: 305px;
+  transform: translateY(-50%);
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.post-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.post-reactions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 25px 20px;
+}
+
+.reaction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.icon-like {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-comment {
+  display: block;
+  width: 20px;
+  height: 19px;
+}
+
+.post-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 25px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+/* ===== 하단 그라데이션 (고정, community 화면과 같은 모양) ===== */
+.bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  width: 393px;
+  height: 121px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(99, 94, 242, 0.05) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+/* ===== 내비게이터 (고정, home 화면과 같은 모양) ===== */
+.navigator {
+  position: absolute;
+  top: 760px;
+  left: 57px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 55px;
+  width: 281px;
+  height: 58px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12.5px);
+  -webkit-backdrop-filter: blur(12.5px);
+  box-shadow: 7px 6px 14px rgba(69, 114, 104, 0.1),
+              inset 2px 2px 6px rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+
+.nav-item {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6C707E;
+  transition: color 0.2s ease;
+}
+
+.nav-item svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.nav-item.is-active {
+  color: #635EF2;
+}

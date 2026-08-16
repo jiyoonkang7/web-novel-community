@@ -1,0 +1,797 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Figma의 세로 트림(대문자 높이 ~ 기준선)을 그대로 재현 */
+.cap-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* ===== header (고정) ===== */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 55px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.back-button {
+  position: absolute;
+  top: 19px;
+  left: 21px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-back {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.board-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 등록 버튼 */
+.submit-button {
+  position: absolute;
+  top: 22px;
+  right: 25px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  font-size: 15px;
+  color: #635EF2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ===== 작성칸 (스크롤) =====
+   header(62~117) 아래부터 화면 끝까지 쓴다.
+   내용 입력칸이 늘어나면 아래 칸들이 밀리면서 스크롤이 생긴다. */
+.content {
+  position: absolute;
+  top: 117px;
+  left: 0;
+  z-index: 1;
+  width: 393px;
+  height: 735px;
+  padding: 14px 16px 60px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 글을 올릴 게시판 이름 */
+.board-name {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 10px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #7F7EFF;
+}
+
+/* ===== 카테고리 dropdown 버튼 + 익명 체크박스 ===== */
+.write-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 1px;
+  height: 44px;
+}
+
+.category-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 266px;
+  height: 44px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 10px;
+  background: #F4F5F7;
+  cursor: pointer;
+}
+
+.category-label {
+  width: 183px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6C707E;
+  text-align: left;
+}
+
+.icon-dropdown {
+  display: block;
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
+}
+
+/* 메뉴가 열리면 화살표가 오른쪽으로 반 바퀴 돌고, 닫히면 되돌아온다 */
+.category-button[aria-expanded="true"] .icon-dropdown {
+  transform: rotate(180deg);
+}
+
+/* 익명 체크박스 */
+.anon-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 실제 입력은 숨기고 .anon-box를 대신 보여준다 */
+.anon-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.anon-box {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #B6B3FF;
+  border-radius: 3px;
+  background: #FFFFFF;
+}
+
+.anon-input:checked + .anon-box {
+  border-color: #635EF2;
+  background: #635EF2;
+}
+
+/* 체크 표시 */
+.anon-input:checked + .anon-box::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 4px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.anon-label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #635EF2;
+  white-space: nowrap;
+}
+
+/* ===== 제목 / 내용 입력칸 ===== */
+.title-input,
+.text-input {
+  display: block;
+  width: 361px;
+  border: 1px solid #D7D9E1;
+  border-radius: 10px;
+  background: #F4F5F7;
+  font-weight: 500;
+  font-size: 14px;
+  color: #45474E;
+  outline: none;
+}
+
+.title-input::placeholder,
+.text-input::placeholder {
+  color: #B8BCC8;
+}
+
+.title-input {
+  height: 50px;
+  margin-top: 15px;
+  padding: 0 20px;
+}
+
+.text-input {
+  min-height: 257px;
+  margin-top: 15px;
+  padding: 12px 20px;
+  line-height: 23px;
+  /* 적은 만큼 늘어나므로 스크롤바가 생기지 않게 둔다 */
+  overflow: hidden;
+  resize: none;
+}
+
+/* 제목 / 내용을 비운 채로 등록을 누르면 잠깐 표시해 준다 */
+.title-input.is-error,
+.text-input.is-error {
+  border-color: #EC6060;
+}
+
+/* ===== 별점 작성바 (후기) ===== */
+.rating-bar {
+  position: relative;
+  display: block;
+  width: 361px;
+  height: 50px;
+  margin-top: 16px;
+  padding: 0;
+  border: 1px solid #D7D9E1;
+  border-radius: 10px;
+  background: #FFFFFF;
+  cursor: pointer;
+}
+
+/* display를 지정한 요소는 hidden 속성만으로 숨겨지지 않는다 */
+.rating-bar[hidden] {
+  display: none;
+}
+
+.rating-bar-label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.rating-bar-score {
+  position: absolute;
+  top: 50%;
+  left: 299px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #EC6060;
+  white-space: nowrap;
+}
+
+.icon-star {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+/* 별점 대신 붙는 아이콘 (검색 / 연결).
+   이 화면의 돋보기는 회색(#9196A3)이라 assets/icon-search-gray.svg를 쓴다
+   (home / search의 돋보기는 보라색 assets/icon-search.svg).
+   display를 지정한 요소는 hidden 속성만으로 숨겨지지 않는다 */
+.icon-work-search,
+.icon-work-link {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  object-fit: contain;
+}
+
+.icon-work-search {
+  right: 18px;
+  width: 23px;
+  height: 23px;
+}
+
+.icon-work-link {
+  right: 25px;
+  width: 24px;
+  height: 24px;
+}
+
+.rating-bar-score[hidden],
+.icon-work-search[hidden],
+.icon-work-link[hidden] {
+  display: none;
+}
+
+/* ===== 스포일러 토글 ===== */
+.spoiler-box {
+  position: relative;
+  width: 361px;
+  height: 50px;
+  margin-top: 31px;
+  border: 1px solid #D7D9E1;
+  border-radius: 10px;
+  background: #FFFFFF;
+}
+
+.spoiler-text {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  white-space: nowrap;
+}
+
+.spoiler-text b {
+  font-weight: 700;
+}
+
+.toggle {
+  position: absolute;
+  top: 14px;
+  left: 302px;
+  width: 40px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: #D7D9E1;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: left 0.2s ease;
+}
+
+.toggle.is-on {
+  background: #7F7EFF;
+}
+
+.toggle.is-on .toggle-knob {
+  left: 22px;
+}
+
+/* ===== 카테고리 dropdown / 별점 카드가 열렸을 때 ===== */
+.dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 393px;
+  height: 852px;
+  background: rgba(108, 112, 126, 0.15);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.category-menu {
+  position: absolute;
+  left: 16px;
+  z-index: 26;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 266px;
+  padding: 9px 0;
+  border-radius: 10px;
+  background: #FFFFFF;
+  filter: drop-shadow(0 1px 5px rgba(69, 71, 78, 0.15));
+}
+
+.dim[hidden],
+.category-menu[hidden],
+.rating-card[hidden] {
+  display: none;
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  padding: 12px 22px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.option-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #6C707E;
+}
+
+.option-desc {
+  font-weight: 400;
+  font-size: 10px;
+  color: #A8ACB8;
+}
+
+.category-option:hover {
+  background: #F8F8FA;
+}
+
+/* 지금 고른 카테고리 */
+.category-option.is-selected .option-name {
+  color: #635EF2;
+}
+
+/* ===== 별점 작성 카드 ===== */
+.rating-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 26;
+  width: 250px;
+  height: 160px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(69, 71, 78, 0.15);
+  overflow: hidden;
+}
+
+.rating-card-title {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 300;
+  font-size: 13px;
+  color: #6C707E;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.rating-stars {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.star {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 별 이미지는 25px 칸 안쪽에 맞춰 넣는다 (시안의 여백 그대로) */
+.star img {
+  display: block;
+  position: absolute;
+  top: 2.08px;
+  left: 2.08px;
+  width: 20.86px;
+  height: 19.79px;
+}
+
+.rating-card-score {
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 400;
+  font-size: 14px;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.rating-done {
+  position: absolute;
+  top: 113px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 149px;
+  height: 30px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 25px;
+  background: #7F7EFF;
+  font-weight: 600;
+  font-size: 12px;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ===== 관련 작품 검색창 =====
+   화면 아래에서 올라오고, x를 누르면 아래로 내려간다.
+   닫혀 있을 때도 자리는 그대로 두고 화면 밖으로 내려두기만 한다. */
+.work-sheet {
+  position: absolute;
+  top: 176px;
+  left: 0;
+  z-index: 26;
+  width: 393px;
+  height: 676px;
+  border-radius: 20px 20px 0 0;
+  background: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(69, 71, 78, 0.15);
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.25s ease;
+}
+
+.work-sheet.is-open {
+  transform: translateY(0);
+}
+
+.sheet-title {
+  position: absolute;
+  top: 39px;
+  left: 22px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #313338;
+  white-space: nowrap;
+}
+
+.sheet-desc {
+  position: absolute;
+  top: 63px;
+  left: 22px;
+  font-weight: 400;
+  font-size: 13px;
+  color: #6C707E;
+  white-space: nowrap;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 19px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-close {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+/* 검색 바 (search 화면과 같은 모양) */
+.sheet-search {
+  position: absolute;
+  top: 103px;
+  left: 22px;
+  width: 349px;
+  height: 45px;
+  /* Figma의 inside stroke - border를 쓰면 안쪽 요소가 선 두께만큼 밀린다 */
+  box-shadow: inset 0 0 0 1.2px #B6B3FF;
+  border-radius: 25px;
+  background: #F4F3FE;
+  overflow: hidden;
+}
+
+.sheet-input {
+  position: absolute;
+  top: 0;
+  left: 15.8px;
+  width: 296px;
+  height: 45px;
+  border: none;
+  background: transparent;
+  font-weight: 400;
+  font-size: 13px;
+  color: #45474E;
+  outline: none;
+}
+
+.sheet-input::placeholder {
+  color: #9196A3;
+}
+
+.sheet-search-button {
+  position: absolute;
+  top: 9.8px;
+  right: 14.8px;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sheet-search-button .icon-search {
+  display: block;
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+
+/* ===== 검색창의 작품 목록 ===== */
+.sheet-list {
+  position: absolute;
+  top: 178px;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 349px;
+  height: 498px;
+  padding-bottom: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sheet-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* 찾은 작품이 하나도 없을 때 */
+.sheet-empty {
+  padding: 60px 0 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  text-align: center;
+}
+
+.work-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 349px;
+  padding: 0 15px 0 5px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row-cover {
+  flex: 0 0 80px;
+  width: 80px;
+  height: 114px;
+  border-radius: 7px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.row-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 199px;
+}
+
+/* 줄바꿈 자리를 정해 둔 작품(WORKS의 titleLines)은 그 모양대로 두 줄로 놓인다 */
+.row-title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #313338;
+  white-space: pre-line;
+}
+
+.row-author {
+  font-weight: 400;
+  font-size: 11px;
+  color: #9196A3;
+}
+
+/* 고른 작품에만 체크가 찬다 (익명 체크박스와 같은 모양) */
+.row-check {
+  position: relative;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #B6B3FF;
+  border-radius: 3px;
+  background: #FFFFFF;
+}
+
+.work-row.is-selected .row-check {
+  border-color: #635EF2;
+  background: #635EF2;
+}
+
+.work-row.is-selected .row-check::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 4px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ===== 키보드 포커스 표시 ===== */
+.category-button:focus-visible,
+.rating-bar:focus-visible,
+.category-option:focus-visible,
+.star:focus-visible,
+.rating-done:focus-visible,
+.work-row:focus-visible,
+.sheet-close:focus-visible {
+  outline: 2px solid #7F7EFF;
+  outline-offset: -2px;
+  border-radius: 10px;
+}

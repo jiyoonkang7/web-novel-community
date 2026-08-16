@@ -1,0 +1,416 @@
+/* 다른 화면과 UI를 맞춘다.
+   status-bar / 막 / 카드는 css/write.css와 같은 모양이고,
+   표지 배너의 별점 · 좋아요 줄은 home의 내 게시판 카드와 같은 모양이다.
+   이 화면에는 내비게이터가 없고, header에 검색 바가 들어가 있어서 header가 조금 더 높다. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e5e5ea;
+}
+
+.phone {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  border-radius: 35px;
+  background: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Figma의 세로 트림(대문자 높이 ~ 기준선)을 그대로 재현 */
+.cap-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* status-bar UI (고정) */
+.status-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 393px;
+  height: 62px;
+  object-fit: cover;
+}
+
+/* ===== header (고정) - 뒤로 가기 + 검색 바 =====
+   뒤로 가기는 다른 화면(community / write)과 같은 자리에 두고,
+   검색 바는 그 버튼과 가운데 높이를 맞춘다. header 높이는 검색 바(45px)에
+   위아래 여백을 같게 준 값이다. */
+.header {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  z-index: 20;
+  width: 393px;
+  height: 58px;
+  background: #FFFFFF;
+}
+
+.back-button {
+  position: absolute;
+  top: 19px;
+  left: 21px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-back {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* 검색 바 (home의 검색 바와 같은 모양이고, 여기서는 직접 입력할 수 있다) */
+.search-bar {
+  position: absolute;
+  top: 6.5px;
+  left: 53px;
+  width: 318px;
+  height: 45px;
+  /* Figma의 inside stroke - border를 쓰면 안쪽 요소가 선 두께만큼 밀린다 */
+  box-shadow: inset 0 0 0 1.2px #B6B3FF;
+  border-radius: 25px;
+  background: #F4F3FE;
+  overflow: hidden;
+}
+
+.search-input {
+  position: absolute;
+  top: 0;
+  left: 15.8px;
+  width: 265px;
+  height: 45px;
+  border: none;
+  background: transparent;
+  font-weight: 400;
+  font-size: 13px;
+  color: #45474E;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #9196A3;
+}
+
+.search-button {
+  position: absolute;
+  top: 9.8px;
+  right: 14.8px;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon-search {
+  display: block;
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+}
+
+/* ===== 장르별 검색 (고정) ===== */
+.genre-section {
+  position: absolute;
+  top: 125px;
+  left: 0;
+  z-index: 10;
+  width: 393px;
+  height: 67px;
+  background: #FFFFFF;
+}
+
+.genre-title {
+  padding: 15px 31px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #313338;
+  white-space: nowrap;
+}
+
+/* 해시태그는 옆으로 밀어서 본다 (마우스로 끌어도 넘어간다) */
+.genre-strip {
+  width: 393px;
+  height: 28px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.genre-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.genre-strip.dragging {
+  cursor: grabbing;
+}
+
+.genre-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  padding: 0 25px;
+}
+
+.genre-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 20px;
+  background: #F4F3FE;
+  font-weight: 400;
+  font-size: 12px;
+  color: #828896;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* 고른 장르 */
+.genre-chip.is-selected {
+  background: #7F7EFF;
+  color: #FFFFFF;
+}
+
+/* ===== 작품 목록 (스크롤) ===== */
+.content {
+  position: absolute;
+  top: 210px;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 15px 10px;
+  width: 393px;
+  height: 665px;
+  padding: 5px 23px 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 찾은 작품이 하나도 없을 때 */
+.empty {
+  width: 100%;
+  padding: 120px 25px 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9196A3;
+  text-align: center;
+}
+
+/* ===== 표지 배너 (한 줄에 세 개) ===== */
+.work-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 109px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.work-cover {
+  width: 109px;
+  height: 154px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.work-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+.work-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 109px;
+  padding: 10px 5px;
+}
+
+/* 제목이 길면 끝을 ...으로 줄인다.
+   여기서는 cap-trim을 쓰지 않는다 - 글자 상자를 대문자 높이까지 줄여 놓으면
+   overflow: hidden이 세로로도 잘라서 'ㅇ'이나 'ㅗ' 아래가 잘려 보인다.
+   대신 line-height로 높이를 잡아 시안의 카드 높이(49px)를 맞춘다. */
+.work-name {
+  width: 100%;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #313338;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.work-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.meta-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.icon-star,
+.icon-heart {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+.work-meta .score {
+  font-weight: 300;
+  font-size: 10px;
+  color: #EC6060;
+}
+
+.work-meta .likes {
+  font-weight: 300;
+  font-size: 10px;
+  color: #828896;
+}
+
+/* ===== 작품 추가 카드 (write의 별점 카드와 같은 모양) ===== */
+.dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 393px;
+  height: 852px;
+  background: rgba(108, 112, 126, 0.15);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.add-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 26;
+  width: 250px;
+  height: 143px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(69, 71, 78, 0.15);
+  overflow: hidden;
+}
+
+.dim[hidden],
+.add-card[hidden] {
+  display: none;
+}
+
+/* 작품 제목도 표지 배너와 같은 이유로 cap-trim을 쓰지 않는다 (긴 제목이 세로로 잘린다).
+   top은 시안의 글자 위치(32px)에 맞춰 그만큼 올려 둔 값이다. */
+.add-title {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #313338;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.add-desc {
+  position: absolute;
+  top: 63px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 300;
+  font-size: 13px;
+  color: #6C707E;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.add-cancel,
+.add-confirm {
+  position: absolute;
+  top: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 30px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.add-cancel {
+  left: 28px;
+  background: #EBEDF1;
+  color: #828896;
+}
+
+.add-confirm {
+  left: 136px;
+  background: #7F7EFF;
+  color: #FFFFFF;
+}
+
+/* ===== 키보드 포커스 표시 ===== */
+.work-card:focus-visible,
+.genre-chip:focus-visible,
+.add-cancel:focus-visible,
+.add-confirm:focus-visible {
+  outline: 2px solid #7F7EFF;
+  outline-offset: 2px;
+  border-radius: 10px;
+}
