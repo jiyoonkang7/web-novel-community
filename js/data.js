@@ -170,7 +170,7 @@ const BOARDS = {
         category: '일반',
         author: '오늘도정시퇴근',
         title: '지사가 본사보다 더한 듯....',
-        text: '본사는 그래도 사람 말이 통했는데 여긴 그냥 다들 눈이 돌아가 있음\n특히 마지막에 나온 그 부장 진짜 소름이었다',
+        text: '본사는 그래도 사람 말이 통했는데 여긴 그냥 다들 눈이 돌아가 있음\n특히 마지막에 나온 과장 진짜 소름이었다',
         spoiler: true,
         likes: 52, comments: 4, views: 145, time: '1시간 전'
       }
@@ -446,35 +446,36 @@ const COMMENTS = {
   ],
 
   'gwaechul:3': [
-    { order: 1, person: 'a', time: '48분 전', text: '그 부장 등장씬 보고 소름 돋았습니다' },
+    { order: 1, person: 'a', time: '48분 전', text: '백사헌 과장 등장씬 보고 소름 돋았습니다' },
     { order: 2, name: '배세진의99번째머리카락', time: '48분 전', text: '본사는 그래도 정상인이 있었는데 지사는 진짜...' },
     { order: 3, name: 'Z999', time: '35분 전', text: '저 화 보고 며칠 동안 계속 생각났어요' },
     { order: 4, person: 'c', time: '28분 전', text: '다음 화에서는 좀 다른 인물 나왔으면' },
   ],
 
   'jeondoksi:0': [
-    { order: 1, name: '배세진의99번째머리카락', time: '20시간 전', text: '그거 아마 웹툰 영상화 소식 잘못 들으신 듯', replies: [
+    { order: 1, name: '배세진의99번째머리카락', time: '20시간 전', text: '그거 아마 웹툰 영상화 소식 잘못 들으신 듯(영원히 영화를 회피하게 되...)', replies: [
       { order: 4, name: '카페인중독', time: '8시간 전', text: '맞아요 애니메이션 얘기였던 것 같아요' },
-      { order: 12, name: '루카스아스카니엔추종자', time: '35분 전', text: '저도 그 소문 들었는데 확인해보니 오보였어요' }
+      { order: 12, name: '루카스아스카니엔추종자', time: '35분 전', text: '...우리 영화 없잖아요 왜 그러신담...^^..ㅜㅡㅠ' }
     ] },
     { order: 2, name: '독자', time: '20시간 전', text: '루머 진짜 빨리 퍼지네요', replies: [
       { order: 8, name: '배세진의99번째머리카락', time: '2시간 전', text: '그러니까요 확인 안 하고 퍼뜨리는 사람들 너무 많음' },
     ] },
     { order: 3, person: 'e', time: '12시간 전', text: '영화화되면 좋을 것 같긴 한데 분량이...', replies: [
-      { order: 14, name: '티카', time: '28분 전', text: '3149편을 영화로 어떻게 압축함' }
+      { order: 14, name: '티카', time: '28분 전', text: '500편을 영화로 어떻게 압축함 하... (그래서 망했잔아!!! 영화 나오기 전부터 걱정했는데 젠장)' }
     ] },
     { order: 5, person: 'e', time: '5시간 전', text: '드라마화라면 또 모르겠는데', replies: [
       { order: 13, name: '박박문대', time: '28분 전', text: '그것도 스케일이 너무 커서 힘들 듯' }
     ] },
-    { order: 6, name: '하룰라라', time: '5시간 전', text: '그냥 소문이었던 걸로' },
-    { order: 7, person: 'd', time: '3시간 전', text: '저도 오늘 그 얘기 듣고 놀랐네요' },
-    { order: 9, name: '티카', time: '1시간 전', text: '확실한 정보 나오면 다시 올려주세요' },
-    { order: 10, person: 'd', time: '1시간 전', text: '네 알겠습니다' },
-    { order: 11, name: '티카', time: '48분 전', text: '기대는 되네요 언젠가는' },
-    { order: 15, name: '출근을하게되..', time: '20분 전', text: '저도 기대중입니다' },
-    { order: 16, name: '티카', time: '15분 전', text: '실현되면 좋겠어요' },
-    { order: 17, person: 'a', time: '10분 전', text: '일단은 소설로 계속 응원할게요' },
-    { order: 18, name: '냐냐냥', time: '10분 전', text: '그게 맞는 듯' },
+    { order: 6, name: '하룰라라', time: '5시간 전', text: '없던 걸로...' },
+    { order: 7, person: 'd', time: '3시간 전', text: '진짜 영화 안 본 눈 사고 싶다(n)' },
+    { order: 9, name: '티카', time: '1시간 전', text: '우리는 이런 걸 원하지 않았어요.....' },
+    { order: 10, person: 'd', time: '1시간 전', text: '엉엉슨....' },
+    { order: 11, name: '티카', time: '48분 전', text: '아니 무슨 인물들이 2d보다 납작해져가지곤...' },
+    { order: 15, name: '출근을하게되..', time: '20분 전', text: '우리 웹툰화까지는 좋았잖아 왜 그래' },
+    { order: 16, name: '티카', time: '15분 전', text: 'ㅡ,ㅜ,ㅡㅠㅠㅠ' },
+    { order: 17, person: 'a', time: '10분 전', text: '자 이제 우리는 원작이랑 웹툰만 있는 거임. 영화나 드라마? 그게 뭔데.', replies: [
+      { order: 18, name: '냐냐냥', time: '10분 전', text: '그게 맞는 듯' }
+    ] }
   ],
 
   'jeondoksi:1': [
